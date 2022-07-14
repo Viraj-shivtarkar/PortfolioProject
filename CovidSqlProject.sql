@@ -83,6 +83,7 @@ where Dea.continent is not null
 order by 2,3
 
 -- Adding Vaccination per population using above query
+
 Select cast(Dea.continent as CHAR), Dea.Location, Dea.date, Dea.population, cast(Vac.new_vaccinations as UNSIGNED) as NewVaccination,
 SUM(cast(Vac.new_vaccinations as UNSIGNED )) over (partition by Dea.location order by Dea.location, Dea.date) as TotalVaccinated,
 (TotalVaccinated/Dea.population)*100 as VaccinatedperPopulation # here we cannot use a temp coloum it give us Error
@@ -114,7 +115,7 @@ from  VacvsPop
 
 -- Creating View to store data for later visualizations / percentage of population infected with Covid in INDIA
 
-indiapercentpopulationindiapercentpopulationCreate View IndiaPercentPopulation as 
+Create View IndiaPercentPopulation as 
 select location, date, population, total_cases, total_deaths, (total_cases/ population)*100 as PercentageGotCovid
 from sql_project.coviddata_deaths
 where location = "India"
